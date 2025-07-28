@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timeline IA - Evolution et Projections</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .timeline-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,12,26,0.1);
+        }
+        
+        .timeline-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .timeline-header h1 {
+            font-size: 2.5em;
+            margin: 0;
+            color: #000c1a;
+        }
+        
+        .timeline {
+            position: relative;
+            padding: 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 60px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: #000c1a;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            padding-left: 140px;
+            opacity: 0;
+            animation: slideIn 0.6s ease forwards;
+        }
+        
+        .timeline-item:nth-child(1) { animation-delay: 0.1s; }
+        .timeline-item:nth-child(2) { animation-delay: 0.2s; }
+        .timeline-item:nth-child(3) { animation-delay: 0.3s; }
+        .timeline-item:nth-child(4) { animation-delay: 0.4s; }
+        .timeline-item:nth-child(5) { animation-delay: 0.5s; }
+        .timeline-item:nth-child(6) { animation-delay: 0.6s; }
+        .timeline-item:nth-child(7) { animation-delay: 0.7s; }
+        .timeline-item:nth-child(8) { animation-delay: 0.8s; }
+        .timeline-item:nth-child(9) { animation-delay: 0.9s; }
+        .timeline-item:nth-child(10) { animation-delay: 1.0s; }
+        .timeline-item:nth-child(11) { animation-delay: 1.1s; }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .year-badge {
+            position: sticky;
+            top: 20px;
+            left: -80px;
+            width: 80px;
+            height: 50px;
+            background: #4a90e2;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1em;
+            clip-path: polygon(0 0, 85% 0, 100% 50%, 85% 100%, 0 100%);
+            border-radius: 8px 0 0 8px;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+        
+        .year-badge.sticky-active {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
+        }
+        
+        .future .year-badge {
+            background: #7bb3ff;
+            opacity: 1;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .timeline-content {
+            background: white;
+            border: 2px solid #e8e8e8;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,12,26,0.15);
+            border-color: #000c1a;
+        }
+        
+        .timeline-content::before {
+            content: '';
+            position: absolute;
+            left: -12px;
+            top: 20px;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 10px 10px 10px 0;
+            border-color: transparent #e8e8e8 transparent transparent;
+        }
+        
+        .breakthrough {
+            border-left: 5px solid #000c1a;
+            background: linear-gradient(135deg, #f8f9fa, #ffffff);
+        }
+        
+        .major-release {
+            border-left: 5px solid #000c1a;
+            background: linear-gradient(135deg, #f8f9fa, #ffffff);
+        }
+        
+        .future {
+            border-left: 5px solid #000c1a;
+            background: linear-gradient(135deg, #f8f9fa, #ffffff);
+            border-style: dashed;
+        }
+        
+        .significant {
+            border-left: 5px solid #000c1a;
+            background: linear-gradient(135deg, #f8f9fa, #ffffff);
+        }
+        
+        .event-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .event-title .icon {
+            margin-right: 10px;
+            font-size: 1.5em;
+        }
+        
+        .event-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .tech-tag {
+            background: #f8f9fa;
+            color: #495057;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            border: 1px solid #dee2e6;
+        }
+        
+        .company-badge {
+            background: #000c1a;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            margin-left: 10px;
+        }
+        
+        .impact-level {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 0.75em;
+        }
+        
+        .revolutionary { background: #000c1a; }
+        .major { background: #000c1a; }
+        .significant { background: #000c1a; }
+        
+        .separator {
+            text-align: center;
+            margin: 40px 0;
+            position: relative;
+        }
+        
+        .separator span {
+            background: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: 2px solid #000c1a;
+            color: #000c1a;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .capability-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .clickable-link {
+            color: #000c1a;
+            text-decoration: none;
+            border-bottom: 2px dotted #000c1a;
+            transition: all 0.3s ease;
+        }
+        
+        .clickable-link:hover {
+            color: #0066cc;
+            border-bottom: 2px solid #0066cc;
+            cursor: pointer;
+        }
+        
+        .vision-demo-trigger {
+            cursor: pointer;
+        }
+        
+        .demo-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+        }
+        
+        .demo-modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 80%;
+            max-width: 800px;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        
+        .close-modal {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #000c1a;
+        }
+        
+        .close-modal:hover {
+            color: #ff0000;
+        }
+        
+        .demo-section {
+            margin-bottom: 25px;
+        }
+        
+        .demo-section h3 {
+            color: #000c1a;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #000c1a;
+            padding-bottom: 10px;
+        }
+        
+        .prompt-example {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #000c1a;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 15px;
+        }
+        
+        .demo-image {
+            width: 100%;
+            max-width: 300px;
+            height: 200px;
+            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-style: italic;
+            margin: 10px auto;
+        }
+        
+        .capability-item {
+            background: #000c1a;
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            border-left: 3px solid #ffffff;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="timeline-container">
+        <div class="timeline-header">
+            <h1>Timeline Intelligence Artificielle</h1>
+        </div>
+        
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="year-badge">2014</div>
+                <div class="timeline-content breakthrough">
+                    <div class="impact-level revolutionary">REV</div>
+                    <div class="event-title">
+                        <a href="https://thispersondoesnotexist.com" target="_blank" class="clickable-link">Generative Adversarial Networks (GANs)</a>
+                    </div>
+                    <div class="event-description">
+                        Révolution dans la génération de contenu artificiel. Deux réseaux s'affrontent : un générateur et un discriminateur.
+                    </div>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Deep Learning</span>
+                        <span class="tech-tag">Génération d'images</span>
+                        <span class="tech-tag">Recherche fondamentale</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="year-badge">2017</div>
+                <div class="timeline-content breakthrough">
+                    <div class="impact-level revolutionary">REV</div>
+                    <div class="event-title">
+                        <a href="https://arxiv.org/pdf/1706.03762" target="_blank" class="clickable-link">Transformers : "Attention Is All You Need"</a>
+                        <span class="company-badge">Google</span>
+                    </div>
+                    <div class="event-description">
+                        Architecture révolutionnaire qui change tout. Mécanisme d'attention qui permet la parallélisation et améliore drastiquement les performances NLP.
+                    </div>
+                    <div class="tech-tags">
+                        <span class="tech-tag">NLP</span>
+                        <span class="tech-tag">Architecture Transformer</span>
+                        <span class="tech-tag">Mécanisme d'attention</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="year-badge">2018</div>
+                <div class="timeline-content major-release">
+                    <div class="impact-level major">MAJ</div>
+                    <div class="event-title">
+                        Avènement des Large Models
+                    </div>
+                    <div class="event-description">
+                        BERT (Bidirectional) et GPT (Generative) marquent le début de l'ère des modèles pré-entraînés à grande échelle.
+                    </div>
+                    <div class="tech-tags">
+                        <span class="tech-tag">BERT - Google</span>
+                        <span class="tech-tag">GPT-1 - OpenAI</span>
+                        <span class="tech-tag">Pre-training</span>
+                        <span class="tech-tag">Transfer Learning</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="year-badge">2019</div>
+                <div class="timeline-content major-release">
+                    <div class="impact-level major">MAJ</div>
+                    <div class="event-title">
+                        Advanced GANs - StyleGAN
+                    </div>
+                    <div class="event-description">
+                        Contrôle précis du style et qualité photo-réaliste. Les deepfakes deviennent indétectables.
+                    </div>
+                    <div class="tech-tags">
+                        <span class="tech-tag">StyleGAN</span>
+                        <span class="tech-tag">Photo-réalisme</span>
+                        <span class="tech-tag">Contrôle de style</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="year-badge">2020</div>
+                <div class="timeline-content breakthrough">
+                    <div class="impact-level revolutionary">REV</div>
+                    <div class="event-title">
+                        GPT-3 : Premier vrai LLM conversationnel
+                        <span class="company-badge">OpenAI</span>
+                    </div>
+                    <div class="event-description">
+                        175 milliards de paramètres. L'IA devient accessible au grand public et démontre des capacités de raisonnement émergentes.
+                    </div>
+                    <div class="tech-tags">
+                        <span class="tech-tag">175B paramètres</span>
+                        <span class="tech-tag">Few-shot learning</span>
+                        <span class="tech-tag">Conversation naturelle</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="year-badge">2021</div>
+                <div class="timeline-content major-release">
+                    <div class="impact-level major">MAJ</div>
+                    <div class="event-title">
+                        <span class="vision-demo-trigger clickable-link">Vision Transformers - CLIP & DALL-E</span>
+                        <span class="company-badge">OpenAI</span>
+                    </div>
+                    <div class="event-description">
+                        Convergence vision-texte. CLIP comprend les images via le langage, DALL-E génère des images à partir de descriptions.
+                    </div>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Vision Transformers</span>
+                        <span class="tech-tag">Multimodalité</span>
+                        <span class="tech-tag">Génération d'images</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="year-badge">2022</div>
+                <div class="timeline-content breakthrough">
+                    <div class="impact-level revolutionary">REV</div>
+                    <div class="event-title">
+                        ChatGPT : L'IA devient mainstream
+                    </div>
+                    <div class="event-description">
+                        GPT-3.5 optimisé pour la conversation + DALL-E 2 pour les images. 100M d'utilisateurs en 2 mois. L'IA entre dans le quotidien.
+                    </div>
+                    <div class="tech-tags">
+                        <span class="tech-tag">ChatGPT</span>
+                        <span class="tech-tag">DALL-E 2</span>
+                        <span class="tech-tag">RLHF</span>
+                        <span class="tech-tag">Adoption massive</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="year-badge">2023</div>
+                <div class="timeline-content major-release">
+                    <div class="impact-level major">MAJ</div>
+                    <div class="event-title">
+                        Course à l'IA Générative
+                    </div>
+                    <div class="event-description">
+                        GPT-4, Claude 3, Gemini, LLaMA 2, Midjourney V5. Guerre des titans et démocratisation des outils IA.
+                    </div>
+                    <div class="tech-tags">
+                        <span class="tech-tag">GPT-4</span>
+                        <span class="tech-tag">Claude 3</span>
+                        <span class="tech-tag">Gemini</span>
+                        <span class="tech-tag">Midjourney V5</span>
+                        <span class="tech-tag">Stable Diffusion</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="year-badge">2024</div>
+                <div class="timeline-content major-release">
+                    <div class="impact-level major">MAJ</div>
+                    <div class="event-title">
+                        IA Agentique et Multimodale
+                    </div>
+                    <div class="event-description">
+                        GPT-4o, Claude 3.5 Sonnet, agents autonomes capables d'utiliser des outils et de raisonner sur des tâches complexes.
+                    </div>
+                    <div class="tech-tags">
+                        <span class="tech-tag">GPT-4o</span>
+                        <span class="tech-tag">Claude 3.5 Sonnet</span>
+                        <span class="tech-tag">IA Agentique</span>
+                        <span class="tech-tag">Multimodalité native</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="separator">
+                <span>PROJECTIONS 2025-2027</span>
+            </div>
+
+            <div class="timeline-item future">
+                <div class="year-badge">2025</div>
+                <div class="timeline-content future">
+                    <div class="impact-level revolutionary">5.0</div>
+                    <div class="event-title">
+                        GPT-5 et Modèles de Nouvelle Génération
+                        <span class="company-badge">OpenAI & Concurrents</span>
+                    </div>
+                    <div class="event-description">
+                        Saut qualitatif dans le raisonnement complexe, planification multi-étapes et résolution de problèmes avancés. Intégration native multimodale.
+                    </div>
+                    <div class="capability-grid">
+                        <div class="capability-item">Raisonnement mathématique expert</div>
+                        <div class="capability-item">Planification stratégique long-terme</div>
+                        <div class="capability-item">Mémoire de contexte étendue</div>
+                        <div class="capability-item">Multimodalité temps-réel</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item future">
+                <div class="year-badge">2026</div>
+                <div class="timeline-content future">
+                    <div class="impact-level revolutionary">AGT</div>
+                    <div class="event-title">
+                        Agents Autonomes Spécialisés
+                    </div>
+                    <div class="event-description">
+                        Déploiement massif d'agents IA spécialisés par secteur. Coordination automatique et collaboration inter-agents pour projets complexes.
+                    </div>
+                    <div class="capability-grid">
+                        <div class="capability-item">Agents sectoriels dédiés</div>
+                        <div class="capability-item">Orchestration multi-agents</div>
+                        <div class="capability-item">Apprentissage continu</div>
+                        <div class="capability-item">Intégration SI native</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item future">
+                <div class="year-badge">2027</div>   
+                <div class="timeline-content future">
+                    <div class="impact-level revolutionary">AGI</div>
+                    <div class="event-title">
+                        Transition vers l'AGI Pratique
+                    </div>
+                    <div class="event-description">
+                        Intelligence artificielle générale dans des domaines spécifiques. Capacités cognitives équivalentes aux experts humains dans la plupart des tâches intellectuelles.
+                    </div>
+                    <div class="capability-grid">
+                        <div class="capability-item">Expertise multi-domaines</div>
+                        <div class="capability-item">Innovation autonome</div>
+                        <div class="capability-item">Adaptation contextuelle</div>
+                        <div class="capability-item">Impact transformationnel</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal for Vision Transformers Demo -->
+        <div id="visionDemoModal" class="demo-modal">
+            <div class="demo-modal-content">
+                <span class="close-modal">&times;</span>
+                <h2 style="color: #000c1a; text-align: center; margin-bottom: 30px;">Vision Transformers - CLIP & DALL-E Demo</h2>
+                
+                <div class="demo-section">
+                    <h3>CLIP - Compréhension Image-Texte</h3>
+                    <div class="prompt-example">
+                        <strong>Prompt:</strong> "A cat sitting on a windowsill looking at birds"
+                    </div>
+                    <div class="demo-image">Image générée : Chat sur rebord de fenêtre</div>
+                    <p><strong>Capacité:</strong> CLIP peut analyser une image et la décrire, ou inversement, trouver l'image correspondant à une description textuelle.</p>
+                </div>
+                
+                <div class="demo-section">
+                    <h3>DALL-E - Génération d'Images</h3>
+                    <div class="prompt-example">
+                        <strong>Prompt:</strong> "An astronaut riding a horse in photorealistic style"
+                    </div>
+                    <div class="demo-image">Image générée : Astronaute sur cheval</div>
+                    <p><strong>Capacité:</strong> DALL-E génère des images originales à partir de descriptions textuelles, même pour des concepts jamais vus ensemble.</p>
+                </div>
+                
+                <div class="demo-section">
+                    <h3>Applications Business</h3>
+                    <ul style="color: #333;">
+                        <li><strong>Marketing:</strong> Génération automatique de visuels publicitaires</li>
+                        <li><strong>E-commerce:</strong> Recherche d'images par description</li>
+                        <li><strong>Design:</strong> Prototypage rapide de concepts visuels</li>
+                        <li><strong>Formation:</strong> Création de supports visuels personnalisés</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Modal functionality
+            const modal = document.getElementById('visionDemoModal');
+            const trigger = document.querySelector('.vision-demo-trigger');
+            const closeBtn = document.querySelector('.close-modal');
+
+            trigger.addEventListener('click', function() {
+                modal.style.display = 'block';
+            });
+
+            closeBtn.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
+
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+
+            // Effet sticky pour les badges d'années
+            window.addEventListener('scroll', function() {
+                const yearBadges = document.querySelectorAll('.year-badge');
+                yearBadges.forEach(badge => {
+                    const rect = badge.getBoundingClientRect();
+                    const isSticky = rect.top <= 20 && rect.top >= -30;
+                    
+                    if (isSticky) {
+                        badge.classList.add('sticky-active');
+                    } else {
+                        badge.classList.remove('sticky-active');
+                    }
+                });
+            });
+        </script>
+    </div>
+</body>
+</html>
